@@ -25,7 +25,7 @@ const setupRoutes = app => {
   app.get('/posts', async (req, res) => {
     try {
       const posts = await _PostModel.default.find({});
-      res.send(posts);
+      return res.json(posts);
     } catch (error) {
       res.statusCode = 500;
       console.log(error);
@@ -50,6 +50,16 @@ const setupRoutes = app => {
       res.statusCode = 400;
       res.send(validationResult.error.details[0].message);
       return;
+    }
+
+    const userExist = await _UserModel.default.findOne({
+      email
+    });
+
+    if (userExist) {
+      res.statusCode = 400;
+    } else {
+      res.statusCode = 200;
     }
 
     try {
@@ -105,20 +115,6 @@ const setupRoutes = app => {
       });
       await newPost.save();
       res.send(newPost);
-    } catch (error) {
-      res.send(error.message);
-    }
-  });
-  app.del('/post/:id', async (req, res) => {
-    const {
-      id
-    } = req.params;
-
-    try {
-      const result = await _PostModel.default.deleteOne({
-        _id: id
-      });
-      res.json(result);
     } catch (error) {
       res.send(error.message);
     }

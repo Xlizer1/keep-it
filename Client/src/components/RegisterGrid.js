@@ -12,7 +12,9 @@ export default class RegisterGrid extends Component {
                     </div>
                     <div className="register__text">
                         <div className="register__info">
-                            <Form type={this.props.type}/>
+                            <Form type={this.props.type} 
+                                handleChange={ this.props.handleChange }
+                                login={ this.props.login }/>
                         </div>
                     </div>
                 </div>

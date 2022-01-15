@@ -5,14 +5,13 @@ import UserModel from './models/UserModel'
 import PostModel from './models/PostModel'
 
 const setupRoutes = (app) => {
-
    
-
    app.get('/posts', async(req, res) => {
 
       try {
          const posts = await PostModel.find({});
-         res.send(posts);
+         
+         return res.json(posts);
          
       } catch (error) {
 
@@ -23,7 +22,7 @@ const setupRoutes = (app) => {
    });
 
    app.post('/user/register', async (req,res) => {
-      const {name, email, password } = req.body;
+      const { name, email, password } = req.body;
 
       const bodySchema = Joi.object({
          name: Joi.string().required(),
@@ -39,20 +38,28 @@ const setupRoutes = (app) => {
          return
       }
 
-   try {
-      const newUser = new UserModel({
-         name,
-         email,
-         password,
-      });
+      const userExist = await UserModel.findOne({email});
 
-      await newUser.save();
+      if(userExist){
+         res.statusCode = 400;
+      } else {
+         res.statusCode = 200;
+      }
 
-      res.send(newUser);
+      try {
+         const newUser = new UserModel({
+            name,
+            email,
+            password,
+         });
+
+         await newUser.save()
+         res.send(newUser);
 
       } catch (error){
          res.send(error.message);
       }
+      
    });
 
    app.get('*', (req, res) => res.send("URL Not Found"));
@@ -93,19 +100,6 @@ const setupRoutes = (app) => {
          res.send(error.message);
       }
    });
-
-   app.del('/post/:id', async(req,res) => {
-      const { id } = req.params;
-      try {
-         const result = await PostModel.deleteOne({
-            _id: id
-         })
-         res.json(result)
-
-      } catch (error) {
-         res.send(error.message);
-      }
-   })
 }
 
 export default setupRoutes;

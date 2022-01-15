@@ -12,19 +12,21 @@ const start = async () => {
       useUnifiedTopology: true
       });
 
-      console.log("connected to the DB");
-      
       const app = express();
-      app.use(bodyParser.urlencoded());
+
+      app.use(express.json())
+
+      console.log("connected to the DB");
+
+      app.use(express.urlencoded({extended: false}));
+
+      app.use(cors());
 
       console.log("app is created, lets setup routes");
       setupRoutes(app);
 
       console.log("App routes added, lets listen on port 4000");
       app.listen(4000);
-
-      app.use(cors());
-
    }
    
    catch (error) {

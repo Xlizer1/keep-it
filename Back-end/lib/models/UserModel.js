@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _Helper = require("../Helper/Helper.js");
@@ -32,4 +37,6 @@ UserSchema.pre('save', function (next) {
 
   next();
 });
-module.exports = model('user', UserSchema);
+const UserModel = new model('user', UserSchema);
+var _default = UserModel;
+exports.default = _default;

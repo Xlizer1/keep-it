@@ -155,6 +155,17 @@ input::placeholder{
     width: 100%;
 }
 
+.register__form button{
+    color: white;
+    background-color: #FF6A3D;
+    /* width: 19rem; */
+    border: none;
+    padding: 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+}
+
 .form-input{
     position: relative;
     margin-bottom: 0.7rem;

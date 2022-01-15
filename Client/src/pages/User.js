@@ -1,6 +1,8 @@
 import React, { Component} from 'react'
 import Header from '../components/Header'
 import NotesArea from '../components/NotesArea'
+import POST_URI from '../components/POST_URI'
+
 export default class User extends Component {
     state={
         notes:[],
